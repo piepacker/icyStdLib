@@ -1,0 +1,14 @@
+root = true
+
+[*]
+indent_style = space
+
+[*.{cpp,h,inl}]
+insert_final_newline = true
+indent_size = 4
+
+[*.{txt,md}]
+indent_size = 4
+
+[*,{html,xml,cs}]
+indent_size = 2
