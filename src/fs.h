@@ -25,6 +25,7 @@ void		remove				(const path& path);
 intmax_t	file_size			(const path& path);
 bool		is_directory		(const path& path);
 bool		create_directory	(const path& path);
+bool		is_device			(const path& path);
 std::string replace_extension	(const std::string& srcpath, const std::string& ext);
 std::string remove_extension	(const std::string& srcpath, const std::string& ext_to_remove);
 bool		stat				(const path& path, struct stat& st);
@@ -131,6 +132,17 @@ public:
 
 	bool is_absolute() const {
 		return (!uni_path_.empty() && uni_path_[0] == separator);
+	}
+
+	bool is_device() const {
+		if (uni_path_.empty() || uni_path_[0] != '/') return 0;		// shortcut early out.
+
+		if (uni_path_ == "/dev/null") return 1;
+		if (uni_path_ == "/dev/tty" ) return 1;
+		if (StringUtil::BeginsWith(uni_path_, "/dev/null/")) return 1;
+		if (StringUtil::BeginsWith(uni_path_, "/dev/tty/" )) return 1;
+
+		return 0;
 	}
 
 	// POSIX style alias for C++ 'parent_path()'

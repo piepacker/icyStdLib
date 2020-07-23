@@ -5,9 +5,9 @@
 #include <ctype.h>
 #include <string>
 
-#pragma warning(disable:4996)	// The POSIX name for this item is deprecated. (some warning microsoft made up on a whim, based on a gross misunderstanding of POSIX standards, and which nothing else adheres to)
 
 #if defined (_MSC_VER)
+#   pragma warning(disable:4996)	// The POSIX name for this item is deprecated. (some warning microsoft made up on a whim, based on a gross misunderstanding of POSIX standards, and which nothing else adheres to)
 #   define strdup   _strdup
 #endif
 
@@ -64,6 +64,11 @@ struct StringTokenizer
 
 inline StringTokenizer Tokenizer(const char* src) {
 	auto* dup = strdup(src);
+	return { dup, dup };
+}
+
+inline StringTokenizer Tokenizer(const std::string& src) {
+	auto* dup = strdup(src.c_str());
 	return { dup, dup };
 }
 

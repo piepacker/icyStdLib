@@ -12,34 +12,28 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="samples\tests_main.cpp" />
-    <ClCompile Include="src\filesystem.msw.cpp" />
-    <ClCompile Include="src\fs.cpp" />
-    <ClCompile Include="src\StringUtil.cpp" />
+    <ClCompile Include="src\**\*.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="icy-app-glue\gisty_assert.h" />
-    <ClInclude Include="src\fs.h" />
-    <ClInclude Include="src\StringTokenizer.h" />
-    <ClInclude Include="src\StringUtil.h" />
+    <ClInclude Include="icy-app-glue\icy_assert.h" />
+    <ClInclude Include="src\**\*.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{1d698920-1c73-4149-a4ce-e6299def6882}</ProjectGuid>
     <RootNamespace>stringutilsamples</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
+  <Import Project="PlatformToolsetMsw.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>

@@ -1,7 +1,7 @@
 
 #include <string>
-#include "gisty_log.h"
-#include "gisty_assert.h"
+#include "icy_log.h"
+#include "icy_assert.h"
 #include "fs.h"
 
 #if !defined(elif)
@@ -58,6 +58,26 @@ std::string ConvertFromMsw(const std::string& origPath)
 {
 	std::string result;
 
+	// peculiar windows: it has some hard-coded filenames which are not prefixed or post-fixed by
+	// anything. Which would make them really dangerous and invasive to filesystem behavior, but hey
+	// that's how windows rolls.
+	//
+	// full list of reserved (most of which we don't check for or handle)
+	//
+	// PRN.
+	// AUX
+	// NUL
+	// COM1, COM2, COM3, COM4, COM5, COM6, COM7, COM8, COM9, COM0
+	// LPT1, LPT2, LPT3, LPT4, LPT5, LPT6, LPT7, LPT8, LPT9, LPT0
+
+	if (origPath == "NUL") {
+		return "/dev/null";
+	}
+
+	if (origPath == "CON") {
+		return "/dev/tty";
+	}
+
 	// max output length is original length plus drive specifier, eg. /c  (two letters)
 	result.resize(origPath.length() + 2);
 	const char* src = origPath.c_str();
@@ -113,7 +133,7 @@ std::string ConvertFromMsw(const std::string& origPath)
 				"Please explicitly specify the drive letter in the path.",
 				origPath.c_str()
 			);
-            return {};
+			return {};
 		}
 	}
 	elif (src[0] == '/') {
@@ -130,7 +150,7 @@ std::string ConvertFromMsw(const std::string& origPath)
 					"Please explicitly specify the drive letter in the path.",
 					origPath.c_str()
 				);
-                return {};
+				return {};
 			}
 		}
 	}
@@ -148,13 +168,28 @@ std::string ConvertFromMsw(const std::string& origPath)
 std::string ConvertToMsw(const std::string& unix_path)
 {
 	if (unix_path.empty()) {
-		return std::string();
+		return {};
+	}
+
+	const char* src = unix_path.c_str();
+
+	// null and tty automatically disregard subdirectories, as a convenience to programming paradigms.
+	// If a component sets a root dir to /dev/null then all files supposed to be created under that dir
+	// will become pipes in/out of /dev/null
+
+	if (src[0] == '/') {
+		if (unix_path == "/dev/null" || StringUtil::BeginsWith(unix_path, "/dev/null/")) {
+			return "NUL";
+		}
+
+		if (unix_path == "/dev/tty" || StringUtil::BeginsWith(unix_path, "/dev/tty/")) {
+			return "CON";
+		}
 	}
 
 	std::string result;
 	result.resize(unix_path.length());
-	const char* src = unix_path.c_str();
-		  char* dst = &result[0];
+	char* dst = &result[0];
 	if (src[0] == '/' && isalnum((uint8_t)src[1]) && src[2] == '/') {
 		dst[0] = toupper(src[1]);
 		dst[1] = ':';

@@ -180,7 +180,7 @@ template<int size> inline int strcpy_ajek(char (&dest)[size], const char* src)
 #if defined(VERIFY_PRINTF_ON_MSVC)
 #	define sFmtStr(...)		            (VERIFY_PRINTF_ON_MSVC(__VA_ARGS__), StringUtil::Format(__VA_ARGS__)        )
 #	define cFmtStr(...)		            (VERIFY_PRINTF_ON_MSVC(__VA_ARGS__), StringUtil::Format(__VA_ARGS__).c_str())
-#	define AppendFmtStr(dest, fmt, ...)	(VERIFY_PRINTF_ON_MSVC(__VA_ARGS__), StringUtil::AppendFmt(dest, fmt, ## __VA_ARGS__))
+#	define AppendFmtStr(dest, fmt, ...)	(VERIFY_PRINTF_ON_MSVC(fmt, __VA_ARGS__), StringUtil::AppendFmt(dest, fmt, ## __VA_ARGS__))
 #else
 #	define sFmtStr(...)		            (StringUtil::Format(__VA_ARGS__)        )
 #	define cFmtStr(...)		            (StringUtil::Format(__VA_ARGS__).c_str())

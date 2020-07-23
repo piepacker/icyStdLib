@@ -7,7 +7,7 @@
 #include <filesystem>
 
 #include "fs.h"
-#include "gisty_log.h"
+#include "icy_log.h"
 
 namespace fs {
 
@@ -40,6 +40,10 @@ std::string PathFromString(const char* path)
 
 bool exists(const path& fspath) {
 	std::error_code nothrow_please_kthx;
+	if (fspath.is_device()) {
+		// /dev/null and /dev/tty (NUL/CON) always exist, contrary to what std::filesystem thinks... --jstine
+		return true;
+	}
 	auto ret = std::filesystem::exists(fspath.asLibcStr(), nothrow_please_kthx);
 	return ret && !nothrow_please_kthx;
 }

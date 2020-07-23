@@ -1,6 +1,6 @@
 
 #include "StringUtil.h"
-#include "gisty_assert.h"
+#include "icy_assert.h"
 
 #include <cstring>
 #include <cstdarg>
