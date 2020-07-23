@@ -1,0 +1,4 @@
+[submodule "platform-sce"]
+	path = src/sce
+	url = ../icyStdLib-platform-sce
+	update = none
