@@ -15,7 +15,8 @@
     <ClCompile Include="src\**\*.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="icy-app-glue\icy_assert.h" />
+    <ClInclude Include="icy-app-glue\*.h" />
+    <ClInclude Include="inc\**\*.h" />
     <ClInclude Include="src\**\*.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -60,7 +61,7 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;_HAS_EXCEPTIONS=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>src;icy-app-glue</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>inc;icy-app-glue</AdditionalIncludeDirectories>
       <ExceptionHandling>false</ExceptionHandling>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -83,6 +84,7 @@
       <ExceptionHandling>false</ExceptionHandling>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <SupportJustMyCode>false</SupportJustMyCode>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
