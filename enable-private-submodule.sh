@@ -1,18 +1,33 @@
 #!/bin/bash
 
+private_submodules="sce"
+
+showhelp() {
+	echo "usage:"
+	echo "  enable-private-submodule [platform]"
+	echo ""
+	echo "Supported private platforms:"
+	echo "  sce     Sony Playstation"
+	echo ""
+
+	echo "You must have been granted access to the private repository, or the attempt"
+	echo "to init/update the submodule will fail."
+
+	exit 0
+}
+
+(( $# == 0 )) && showhelp
+
 for item; do
 	if [[ "$item" == "--help" ]]; then
-		echo "You must have been granted access to the private repository, or the attempt"
-		echo "to init/update the submodule will fail."
+		showhelp
 	fi
 done
 
 enable-one-submodule() {
-    git config submodule.platform-$1.update rebase
-    git submodule init platform-$1 --update
+	git config submodule.platform-$1.update rebase
+	git submodule init platform-$1 --update
 }
-
-private_submodules="sce"
 
 for cli; do
 	for item in $private_submodules; do
