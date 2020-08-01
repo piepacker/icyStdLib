@@ -3,6 +3,9 @@
 #include "StringTokenizer.h"
 #include "fs.h"
 
+#include "msw_app_console_init.h"
+#include "StringUtil.h"
+
 static const char* parse_inputs[] = {
     "",
     "--lvalue=rvalue1",
@@ -74,6 +77,13 @@ static const char* path_rel_inputs[] = {
 
 int main(int argc, char** argv) {
 
+    msw_InitAppForConsole("samples");
+
+    if (argc > 1 && strcasecmp(argv[1], "crashdump") == 0) {
+        *((int*)0) = 50;
+        exit(0);
+    }
+
     for(const auto* item : parse_inputs) {
         auto tok = Tokenizer(item);
         if (auto* lvalue = tok.GetNextTokenTrim('=')) {
@@ -106,7 +116,7 @@ int main(int argc, char** argv) {
             printf("inputA = %s\n", itemA);
             printf("inputB = %s\n", itemB);
             printf("uni    = %s\n", concatenated.uni_string().c_str());
-            printf("native = %s\n", concatenated.c_str());            
+            printf("native = %s\n", concatenated.c_str());
             printf("\n");
         }
     }
@@ -118,7 +128,7 @@ int main(int argc, char** argv) {
             printf("inputA = %s\n", itemA);
             printf("inputB = %s\n", itemB);
             printf("uni    = %s\n", concatenated.uni_string().c_str());
-            printf("native = %s\n", concatenated.c_str());            
+            printf("native = %s\n", concatenated.c_str());
             printf("\n");
         }
     }
@@ -131,7 +141,7 @@ int main(int argc, char** argv) {
             printf("inputA = %s\n", itemA);
             printf("inputB = %s\n", itemB);
             printf("uni    = %s\n", concatenated.uni_string().c_str());
-            printf("native = %s\n", concatenated.c_str());            
+            printf("native = %s\n", concatenated.c_str());
             printf("\n");
         }
     }
@@ -143,7 +153,7 @@ int main(int argc, char** argv) {
             printf("inputA = %s\n", itemA);
             printf("inputB = %s\n", itemB);
             printf("uni    = %s\n", concatenated.uni_string().c_str());
-            printf("native = %s\n", concatenated.c_str());            
+            printf("native = %s\n", concatenated.c_str());
             printf("\n");
         }
     }
