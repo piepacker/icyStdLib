@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# msbuild shader compiler integration is basically terrible.
+# We can't use it, so instead just specify the shaders as "none" and compile them independently.
+
+cat tmpl-msbuild-xml-header.txt
+
+
+echo '  <ItemGroup>'
+for i in $(find src -iname "*.fx"); do
+	if   [[ $i == *_fs.fx ]]; then
+		shader_type=Pixel
+	elif [[ $i == *_vs.fx ]]; then
+		shader_type=Vertex
+	fi
+	
+	echo "    <None Include=\"$i\">"
+	echo "      <FileType>Document</FileType>"
+	echo "    </None>"
+done
+echo '  </ItemGroup>'
+echo ''
+echo '</Project>'

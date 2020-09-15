@@ -1,0 +1,24 @@
+#!/bin/bash
+
+me=$(basename "${BASH_SOURCE[0]}")
+mydir=$(dirname $(readlink -f ${BASH_SOURCE[0]}))
+
+cppfiles=$(find "$@" -iname "*.cpp" | grep -v '##') 
+hxxfiles=$(find "$@" -iname "*.h" -or -iname "*.hxx"  | grep -v '##')
+
+cat $mydir/tmpl-msbuild-xml-header.txt
+
+if [[ -n "$cppfiles" ]]; then
+	echo '  <ItemGroup>'
+	printf "    <ClCompile Include=\"%s\" />\n" $cppfiles
+	echo '  </ItemGroup>'
+	echo ''
+fi
+
+if [[ -n "$hxxfiles" ]]; then
+	echo '  <ItemGroup>'
+	printf "    <ClInclude Include=\"%s\" />\n" $hxxfiles
+	echo '  </ItemGroup>'
+fi
+echo ''
+echo '</Project>'
