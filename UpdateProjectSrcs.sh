@@ -8,21 +8,22 @@
 # (can be used to easily exclude files meant for standalone compilation/tersting
 # of some sources).
 
+# use cygpath to ensure things are runnable from double-clicking explorer.
+#
+# annoyingly, MSYS2 doesn't cygpath the BASH_SOURCE. More than a few valid arguments could
+# be made that it should - it's going to be a known and valid system path so it must always
+# be safe for cygpath detection.
 
-me=$(basename "${BASH_SOURCE[0]}")
-mydir=$(dirname $(readlink -f ${BASH_SOURCE[0]}))
+bashsrc=$(cygpath "${BASH_SOURCE[0]}")
+me=$(basename $bashsrc)
+mydir=$(dirname $(readlink -f $bashsrc))
 
-PATH=$mydir/build:$PATH
+export PATH=$mydir/build:$PATH
 
-MsGenClCompile src > srclist_icystdlib.msbuild
+MsGenClCompile src > $mydir/srclist_icystdlib.msbuild
 
-# Visual Studio balks if we have more than two ItemGroups in an include?
-# I really dunno what to think, anyway that's why I split shaders into their own file.
-
-# no external shaders in tooling yet...
-#ShaderWildcard    > ShaderList.msbuild
-
-MsGenVcFilters samples.vcxproj srclist_icystdlib.msbuild
+MsGenVcFilters $mydir/samples.vcxproj   $mydir/srclist_icystdlib.msbuild
+MsGenVcFilters $mydir/icyStdLib.vcxproj $mydir/srclist_icystdlib.msbuild
 
 # tells visual studio to reload things...
-touch samples.vcxproj
+touch $mydir/*.vcxproj

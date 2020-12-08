@@ -1,8 +1,12 @@
 #pragma once
 
-#if defined(_MSC_VER) && !defined(PLATFORM_MSW)
-#   define PLATFORM_MSW    1
-#endif
+// Project-level build configuration for IcyStdLib
+//
+// This file is an alternative to baking options into makefiles and msbuild files.
+// It's easier to edit and shows up more clearly in things like include-hierarchies
+// and preprocessor dumps.
+
+#include "fi-icyglue-BuildConfig.h"
 
 #if defined(_MSC_VER)
 #	pragma warning(disable:4100)	// unreferenced formal parameter

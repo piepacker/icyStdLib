@@ -24,10 +24,14 @@ for item; do
 	fi
 done
 
-enable-one-submodule() {
+git submodule update --init
+
+enable-one-submodule() {(
+	set -x
 	git config submodule.platform-$1.update rebase
-	git submodule init platform-$1 --update
-}
+	git submodule init src/$1
+	git submodule update src/$1
+)}
 
 for cli; do
 	for item in $private_submodules; do
@@ -36,5 +40,5 @@ for cli; do
 		else
 			>&2 echo "Ignored unknown private submodule name: $cli"
 		fi
-	fi
-fi
+	done
+done
