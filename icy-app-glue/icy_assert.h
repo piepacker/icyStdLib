@@ -15,6 +15,8 @@
 #define rel_abort(...)           (my_abort ( ## __VA_ARGS ))
 */
 
+#include <cstdlib>      // for abort()
+
 #if !defined(dbg_check)
 #	define dbg_check(cond, ...)		((cond) || (abort(),0))
 #endif
