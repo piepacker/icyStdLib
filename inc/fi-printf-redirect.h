@@ -34,5 +34,6 @@ _extern_c int _fi_redirect_fputs    (char const* _Buffer, FILE* _Stream);
 #define vfprintf(fp, fmt, args)	_fi_redirect_vfprintf(fp, fmt, args)
 #define puts(msg)				_fi_redirect_puts    (msg);
 #define fputs(msg, fp)			_fi_redirect_fputs   (msg, fp);
+#define fwrite(buf, sz, nx, fp) _fi_redirect_fwrite  (buf, sz, nx, fp)
 #undef _extern_c
 #endif

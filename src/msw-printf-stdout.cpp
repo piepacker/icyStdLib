@@ -45,6 +45,7 @@ void msw_OutputDebugStringV(const char* fmt, va_list args)
 #	undef fprintf
 #	undef puts
 #	undef fputs
+#   undef fwrite
 
 extern "C" {
 int _fi_redirect_printf(const char* fmt, ...)
@@ -108,16 +109,16 @@ int _fi_redirect_fputs(char const* buffer, FILE* handle) {
 	return result;
 }
 
-int _fi_redirect_fwrite(char const* buffer, size_t size, size_t nelem, FILE* handle)
+intmax_t _fi_redirect_fwrite(char const* buffer, size_t size, size_t nelem, FILE* handle)
 {
-	int result = fwrite(buffer, size, nelem, handle);
+	auto result = fwrite(buffer, size, nelem, handle);
 	if (handle == stdout || handle == stderr)
 	{
 		if (msw_IsDebuggerPresent()) {
 			char mess[1024];
 			auto nsize = size * nelem;
 			while(nsize) {
-				int chunksize = std::min(nsize, 1023ULL);
+				auto chunksize = std::min(nsize, 1023ULL);
 				memcpy(mess, buffer, chunksize);
 				mess[chunksize] = 0;
 				msw_OutputDebugString(mess);
