@@ -1,8 +1,13 @@
 #pragma once
 
 // Default BuildConfig Template for Icy Libraries and Apps.
-
-
+//
+// This file is an alternative to baking options into makefiles and msbuild files.
+// It's easier to edit and shows up more clearly in things like include-hierarchies
+// and preprocessor dumps.
+//
+// The main caveat is order of inclusion with other forced-includes. But for most projects,
+// a wee bit of architectural planning and subert that risk.
 
 #if PLATFORM_MSW
 #   if !defined(_SECURE_SCL_THROWS)
@@ -16,6 +21,9 @@
 #	endif
 #	if !defined(_CRT_SECURE_NO_WARNINGS)
 #		define _CRT_SECURE_NO_WARNINGS	 1
+#	endif
+#	if !defined(_SCL_SECURE_NO_WARNINGS)
+#		define _SCL_SECURE_NO_WARNINGS	 1
 #	endif
 #endif
 
