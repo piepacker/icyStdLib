@@ -160,8 +160,14 @@ public:
 	bool  operator == (const path& s)           const;
 	bool  operator != (const path& s)           const;
 
-	bool  operator == (const char *s)           const { return strcmp(uni_path_.c_str(), fs::PathFromString(s).c_str()) == 0; }
-	bool  operator != (const char *s)           const { return strcmp(uni_path_.c_str(), fs::PathFromString(s).c_str()) != 0; }
+	bool  operator == (const char *s)           const;
+	bool  operator != (const char *s)           const;
+
+	bool  operator >  (const path& s)           const;
+	bool  operator >= (const path& s)           const;
+	bool  operator <  (const path& s)           const;
+	bool  operator <= (const path& s)           const;
+
 	path& operator /= (const fs::path& fpath)         { return append(fpath.uni_path_); }
 	path  operator /  (const fs::path& fpath)   const { return path(*this).append(fpath.uni_path_); }
 

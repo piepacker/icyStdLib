@@ -1,3 +1,5 @@
+// Contents released under the The MIT License (MIT)
+
 #pragma once
 
 // the Microsoft CRT has a define that's been present, unconditionally, since its inception: '_CRT_PACKING'
