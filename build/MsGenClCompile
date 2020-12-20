@@ -5,20 +5,19 @@ mydir=$(dirname $(readlink -f ${BASH_SOURCE[0]}))
 
 cppfiles=$(find "$@" -iname "*.cpp" | grep -v '##') 
 hxxfiles=$(find "$@" -iname "*.h" -or -iname "*.hxx"  | grep -v '##')
+$path_prefix="$2"
 
 cat $mydir/tmpl-msbuild-xml-header.txt
 
 if [[ -n "$cppfiles" ]]; then
 	echo '  <ItemGroup>'
-	printf "    <ClCompile Include=\"%s\" />\n" $cppfiles
+	printf "    <ClCompile Include=\"%s%s\" />\n" "$path_prefix" $cppfiles
 	echo '  </ItemGroup>'
-	echo ''
 fi
 
 if [[ -n "$hxxfiles" ]]; then
 	echo '  <ItemGroup>'
-	printf "    <ClInclude Include=\"%s\" />\n" $hxxfiles
+	printf "    <ClInclude Include=\"%s%s\" />\n" "$path_prefix" $hxxfiles
 	echo '  </ItemGroup>'
 fi
-echo ''
 echo '</Project>'

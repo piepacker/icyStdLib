@@ -20,7 +20,7 @@ mydir=$(dirname $(readlink -f $bashsrc))
 
 export PATH=$mydir/build:$PATH
 
-MsGenClCompile src > $mydir/srclist_icystdlib.msbuild
+MsGenClCompile src "path_to_icystdlib" > $mydir/srclist_icystdlib.msbuild
 
 MsGenVcFilters $mydir/samples.vcxproj   $mydir/srclist_icystdlib.msbuild
 MsGenVcFilters $mydir/icyStdLib.vcxproj $mydir/srclist_icystdlib.msbuild
