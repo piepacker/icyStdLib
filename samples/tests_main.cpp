@@ -20,6 +20,13 @@ static const char* parse_inputs[] = {
     nullptr,
 };
 
+static const char* parse_multiline_inputs[] = {
+  "LVALUE = RVALUE\n"
+  "LVALUE2 = RVALUE(DOS)\r\n"
+  "LINE3 = RVALUE(multiline)\n\n"
+  "LINE4 = FINISHED\n"
+};
+
 // note: verification is done by bash script externally.
 /* Expected output, use diff CLI too to verify:
 --lvalue
@@ -84,19 +91,35 @@ int main(int argc, char** argv) {
         exit(0);
     }
 
+    printf("TEST:TOKENIZER:SINGLINE\n");
     for(const auto* item : parse_inputs) {
         auto tok = Tokenizer(item);
-        if (auto* lvalue = tok.GetNextTokenTrim('=')) {
+        if (auto* lvalue = tok.GetNextToken('=')) {
             printf("%s", lvalue);
             bool need_comma = 0;
-            while(auto* rparam = tok.GetNextTokenTrim(',')) {
+            while(auto* rparam = tok.GetNextToken(',')) {
                 printf("%s%s", need_comma ? "," : "=", rparam);
                 need_comma = 1;
             }
         }
         printf("\n");
-
     }
+    printf("--------------------------------------\n");
+    printf("TEST:TOKENIZER:MULTILINE\n");
+    auto tokall = Tokenizer(parse_multiline_inputs[0]);
+    while(auto line = tokall.GetNextToken("\r\n")) {
+        auto tok = Tokenizer(line);
+        if (auto* lvalue = tok.GetNextToken('=')) {
+            printf("%s", lvalue);
+            bool need_comma = 0;
+            while(auto* rparam = tok.GetNextToken(',')) {
+                printf("%s%s", need_comma ? "," : "=", rparam);
+                need_comma = 1;
+            }
+            printf("\n");
+        }
+    }
+
     printf("--------------------------------------\n");
     printf("TEST:FILESYSTEM:ABSOLUTE\n");
     for(const auto* item : path_abs_inputs) {

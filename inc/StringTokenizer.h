@@ -19,6 +19,13 @@ inline char* strchr_ajek(const char* src, char delim)
     return (char*)src;
 }
 
+inline char* strchr_ajek(const char* src, const char* delims)
+{
+    if (!src || !src[0]) return nullptr;
+    while(!strchr(delims, src[0])) { ++src; }
+    return (char*)src;
+}
+
 inline char* strtok_ajek(char* (&curr), char* (&next), char delim)
 {
     if (!curr) return nullptr;
@@ -41,6 +48,33 @@ inline char* strtok_ajek(char* (&curr), char* (&next), char delim)
     return nullptr;
 }
 
+// Returns nullptr at the end of a string.
+// If end of string is reached while searching for a delimiter through whitespace, then an empty string
+// will be returned rather than nullptr. This allows the function to be used to accurately check for end
+// of string condition vs empty token condition.
+inline char* strtok_ajek(char* (&curr), char* (&next), const char* delims)
+{
+    if (!curr) return nullptr;
+    if (!curr[0]) return nullptr;
+
+    next = strchr_ajek(curr, delims);
+
+    char* begg = curr;
+    char* endd = next-1;
+
+    while (                  isspace((uint8_t)begg[0])) {              ++begg; }
+    while ((endd >= begg) && isspace((uint8_t)endd[0])) { endd[0] = 0; --endd; }
+
+    bool isEnd = (next[0] == 0);
+    curr = next + !isEnd;
+    next[0] = 0;	// delete comma delimiter
+
+    if (endd >= begg) {
+        return begg;
+    }
+    return next;    // next will always be empty string
+}
+
 struct StringTokenizer
 {
     ~StringTokenizer() {
@@ -58,7 +92,7 @@ struct StringTokenizer
     uint8_t			m_lastDelim = 0;
 
     const char*	GetNextToken	(uint8_t delim=0);
-    const char* GetNextTokenTrim(uint8_t delim=0);
+    const char* GetNextToken    (const char* delims);
     uint8_t		GetLastDelim	() const			{ return m_lastDelim; }
 };
 
@@ -78,15 +112,8 @@ inline const char* StringTokenizer::GetNextToken(uint8_t delim)
     return strtok_ajek(m_curr, m_next, delim);
 }
 
-inline const char* StringTokenizer::GetNextTokenTrim(uint8_t delim)
+inline const char* StringTokenizer::GetNextToken(const char* delims)
 {
     m_lastDelim = m_next ? m_next[0] : 0;
-    if (uint8_t* result = (uint8_t*)strtok_ajek(m_curr, m_next, delim)) {
-        auto* next = (uint8_t*)m_next;
-        while (result < next  && isblank(*result))   { ++result; }
-        while (next >= result && isblank(next[-1]))  { --next; }
-        next[0] = 0;
-        return (char*)result;
-    }
-    return nullptr;
+    return strtok_ajek(m_curr, m_next, delims);
 }

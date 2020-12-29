@@ -10,6 +10,10 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <PropertyGroup>
+    <PATH_TO_ICYSTDLIB>.</PATH_TO_ICYSTDLIB>
+  </PropertyGroup>
+  <Import Project="srclist_icystdlib.msbuild" />
   <ItemGroup>
     <ClCompile Include="samples\tests_main.cpp" />
   </ItemGroup>
@@ -18,11 +22,6 @@
     <ClInclude Include="icy-app-glue\fi-icyglue-BuildConfig.h" />
     <ClInclude Include="icy-app-glue\icy_assert.h" />
     <ClInclude Include="icy-app-glue\icy_log.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="icyStdLib.vcxproj">
-      <Project>{9eec80a7-4aa5-4349-a51d-79cba30821d3}</Project>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -50,14 +49,13 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup>
-	<!-- TODO: add an MsbuildValueOrDefault thing here to allow setting custom intdir/outdir behavior -->
-	<_localRootDir>.</_localRootDir>
-
+    <!-- TODO: add an MsbuildValueOrDefault thing here to allow setting custom intdir/outdir behavior -->
+    <_localRootDir>.</_localRootDir>
     <IntDir>$(_localRootDir)/obj/$(ProjectName)/$(Platform)_$(Configuration)/</IntDir>
     <OutDir Condition="'$(ConfigurationType)' == 'Application'">$(_localRootDir)/bin/$(Platform)/</OutDir>
     <OutDir Condition="'$(ConfigurationType)' == 'DynamicLibrary'">$(_localRootDir)/bin/$(Platform)/</OutDir>
     <OutDir Condition="'$(ConfigurationType)' == 'StaticLibrary'">$(_localRootDir)/bin/lib/$(Platform)_$(Configuration)/</OutDir>
-	<TargetName Condition="'$(Configuration)'!='Release'">$(ProjectName)_$(Configuration)</TargetName>
+    <TargetName Condition="'$(Configuration)'!='Release'">$(ProjectName)_$(Configuration)</TargetName>
   </PropertyGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
