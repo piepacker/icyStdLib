@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <!-- PATH_TO_ICYSTDLIB - if unset, assume the path is relative to this msbuild file -->
+    <!-- _RELPATH_TO_ICYSTDLIB - relative paths for the ClCompile and ClInclude are nice, works better with filters -->
+    <PATH_TO_ICYSTDLIB Condition="'$(PATH_TO_ICYSTDLIB)' == ''">$(MSBuildThisFileDirectory.TrimEnd('\'))</PATH_TO_ICYSTDLIB>
+    <_RELPATH_TO_ICYSTDLIB>$([MSBuild]::MakeRelative($(ProjectDir), $(PATH_TO_ICYSTDLIB)))</_RELPATH_TO_ICYSTDLIB>
+  </PropertyGroup>
   <ItemGroup>
-    <ClCompile Include="$(PATH_TO_ICYSTDLIB)/src/filesystem.msw.cpp" />
-    <ClCompile Include="$(PATH_TO_ICYSTDLIB)/src/fs.cpp" />
-    <ClCompile Include="$(PATH_TO_ICYSTDLIB)/src/logger_local_buffer.cpp" />
-    <ClCompile Include="$(PATH_TO_ICYSTDLIB)/src/msw-printf-stdout.cpp" />
-    <ClCompile Include="$(PATH_TO_ICYSTDLIB)/src/msw_app_console_init.cpp" />
-    <ClCompile Include="$(PATH_TO_ICYSTDLIB)/src/posix_file.cpp" />
-    <ClCompile Include="$(PATH_TO_ICYSTDLIB)/src/StringUtil.cpp" />
+    <ClCompile Include="$(_RELPATH_TO_ICYSTDLIB)/src/filesystem.msw.cpp" />
+    <ClCompile Include="$(_RELPATH_TO_ICYSTDLIB)/src/fs.cpp" />
+    <ClCompile Include="$(_RELPATH_TO_ICYSTDLIB)/src/logger_local_buffer.cpp" />
+    <ClCompile Include="$(_RELPATH_TO_ICYSTDLIB)/src/msw-printf-stdout.cpp" />
+    <ClCompile Include="$(_RELPATH_TO_ICYSTDLIB)/src/msw_app_console_init.cpp" />
+    <ClCompile Include="$(_RELPATH_TO_ICYSTDLIB)/src/posix_file.cpp" />
+    <ClCompile Include="$(_RELPATH_TO_ICYSTDLIB)/src/StringUtil.cpp" />
   </ItemGroup>
-  <Import Project="$(PATH_TO_ICYSTDLIB)/src/ps4/icystdlib-ps4.props" Condition="exists('$(PATH_TO_ICYSTDLIB)/src/ps4/icystdlib-ps4.props')" />
+  <Import Project="$(_RELPATH_TO_ICYSTDLIB)/src/ps4/icystdlib-ps4.props" Condition="exists('$(PATH_TO_ICYSTDLIB)/src/ps4/icystdlib-ps4.props')" />
 </Project>
