@@ -232,17 +232,8 @@ void msw_InitAppForConsole(const char* app_name) {
 }
 
 void msw_AllocUglyConsole() {
-    // Creates an old-fashioned console window.
-    // This is actually pretty much shit, and we should never use it, because it
-    // won't work the way we expect it should whenever DLLs are involved. The DLLs
-    // will use a different instance of the CRT, which means different instances of
-    // stdin/stdout/stdfile, which means their writes to printf() won't go anywhere.
-    //
-    // GetStdHandle / SetStdHandle also don't help the situation much.
-    //
-    // The only good way to redirect input and bind consoles in Windows is to use the
-    // command shell or git-bash to redirect things.  It's the only way to ensure DLLs
-    // behave correctly.  --jstine
+    // Creates an old-fashioned console window, and enables UTF-8 support by setting a font
+    // that supports all character sets.
 
     auto previn  = ::GetStdHandle(STD_INPUT_HANDLE );
     auto prevout = ::GetStdHandle(STD_OUTPUT_HANDLE);
