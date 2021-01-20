@@ -1,5 +1,8 @@
 
-#if PLATFORM_MSW
+// FIXME: set_abort_behavior is a CRT thing, and is not supported on mingw toolchain
+// We should separate it from the console bits.
+
+#if !!PLATFORM_MSW && defined(_MSC_VER)
 #include <Windows.h>
 #include <Dbghelp.h>
 #include <signal.h>

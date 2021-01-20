@@ -16,19 +16,20 @@
 */
 
 #include <cstdlib>      // for abort()
+#include <cstdio>
 
 #if !defined(dbg_check)
-#	define dbg_check(cond, ...)		((cond) || (abort(),0))
+#	define dbg_check(cond, ...)		((cond) || (fprintf(stderr, "(assert failed) " # cond ": " __VA_ARGS__ ), abort(),0))
 #endif
 
 #if !defined(dbg_abort)
-#	define dbg_abort(...)		    (abort(),0)
+#	define dbg_abort(...)		    (fprintf(stderr, "(assert failed) " __VA_ARGS__ ), abort(),0)
 #endif
 
 #if !defined(rel_check)
-#	define rel_check(cond, ...)		((cond) || (abort(),0))
+#	define rel_check(cond, ...)		((cond) || (fprintf(stderr, "(assert failed)" # cond ": " __VA_ARGS__ ), abort(),0))
 #endif
 
 #if !defined(rel_abort)
-#	define rel_abort(...)		    (abort(),0)
+#	define rel_abort(...)		    (fprintf(stderr, "(assert failed) " __VA_ARGS__ ), abort(),0)
 #endif

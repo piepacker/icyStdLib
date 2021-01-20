@@ -12,7 +12,7 @@
 // defines explicitly via makefile.
 
 #if !defined(PLATFORM_MSW)
-#   if defined(_MSC_VER)
+#   if defined(_WIN32)
 #       define PLATFORM_MSW     1
 #   else
 #       define PLATFORM_MSW     0
@@ -20,7 +20,7 @@
 #endif
 
 #if !defined(PLATFORM_MSCRT)
-#   if defined(_MSC_VER)
+#   if defined(_WIN32)
 #       define PLATFORM_MSCRT   1
 #   else
 #       define PLATFORM_MSCRT   0

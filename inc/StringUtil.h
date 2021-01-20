@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstring>
 #include <string>
 #include <vector>
+#include <tuple>
 
 #if !defined(__verify_fmt)
 #   if defined(_MSC_VER)
@@ -11,12 +13,17 @@
 #   endif
 #endif
 
-#if defined(_MSC_VER)
-#	define strcasecmp(a,b)		_stricmp(a,b)
-#	define strcasestr(a,b)		_stristr(a,b)
-#	define strncasecmp(a,b,c)	_strnicmp(a,b,c)
-
-extern char *_stristr(const char *haystack, const char *needle);
+#if !!PLATFORM_MSCRT
+#   if !defined(strcasecmp) 
+#   	define strcasecmp(a,b)		_stricmp(a,b)
+#   endif
+#   if !defined(strcasestr)
+#   	define strcasestr(a,b)		_stristr(a,b)
+       extern char *_stristr(const char *haystack, const char *needle);
+#   endif
+#   if !defined(strncasecmp)
+#   	define strncasecmp(a,b,c)	_strnicmp(a,b,c)
+#   endif
 #endif
 
 #if !defined(HAS_strcasestr)

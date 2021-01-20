@@ -14,10 +14,11 @@
 // off_t is too poorly defined to be of use. Let's define our own based on intmax_t.
 using x_off_t = intmax_t;
 
-#if defined(PLATFORM_MSCRT)
+#if PLATFORM_MSW
 #	include <fcntl.h>
 #	include <io.h>
 #   include <cstdio>
+#   include <sys/stat.h>
 
     // windows POSIX libs are lacking the fancy new pread() function. >_<
     extern size_t _pread(int fd, void* dest, size_t count, x_off_t pos);

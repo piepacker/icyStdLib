@@ -1,6 +1,5 @@
 
-#if defined(_MSC_VER)
-
+#if !!PLATFORM_MSW
 #include <vector>
 #include <string>
 #include <cstdio>
@@ -8,6 +7,9 @@
 
 #include "fs.h"
 #include "icy_log.h"
+
+#include <sys/types.h>
+#include <sys/stat.h>
 
 namespace fs {
 
