@@ -70,14 +70,15 @@ int _fi_redirect_vfprintf(FILE* handle, const char* fmt, va_list args)
 {
 	int result;
 	if (1) {
+		// flush stdout before writing stderr, otherwise the context of stderr will be misleading.
+		if (handle == stderr) {
+			fflush(stdout);
+		}
+
 		va_list argptr;
 		va_copy(argptr, args);
 		result = vfprintf(handle, fmt, argptr);
 		va_end(argptr);
-
-		if (handle == stderr) {
-			fflush(stderr);
-		}
 	}
 
 	if (handle == stdout || handle == stderr)
@@ -109,7 +110,7 @@ int _fi_redirect_fputs(char const* buffer, FILE* handle) {
 	return result;
 }
 
-intmax_t _fi_redirect_fwrite(char const* buffer, size_t size, size_t nelem, FILE* handle)
+intmax_t _fi_redirect_fwrite(void const* buffer, size_t size, size_t nelem, FILE* handle)
 {
 	auto result = fwrite(buffer, size, nelem, handle);
 	if (handle == stdout || handle == stderr)
@@ -117,13 +118,14 @@ intmax_t _fi_redirect_fwrite(char const* buffer, size_t size, size_t nelem, FILE
 		if (msw_IsDebuggerPresent()) {
 			char mess[1024];
 			auto nsize = size * nelem;
+			auto* chbuf = (const char*)buffer;
 			while(nsize) {
 				auto chunksize = std::min(nsize, 1023ULL);
-				memcpy(mess, buffer, chunksize);
+				memcpy(mess, chbuf, chunksize);
 				mess[chunksize] = 0;
 				msw_OutputDebugString(mess);
 				nsize -= chunksize;
-				buffer += chunksize;
+				chbuf += chunksize;
 			}
 		}
 	}
