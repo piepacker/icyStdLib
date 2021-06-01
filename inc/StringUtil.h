@@ -13,7 +13,7 @@
 #   endif
 #endif
 
-#if !!PLATFORM_MSCRT
+#if PLATFORM_MSCRT
 #   if !defined(strcasecmp) 
 #   	define strcasecmp(a,b)		_stricmp(a,b)
 #   endif
