@@ -18,18 +18,22 @@
 #include <cstdlib>      // for abort()
 #include <cstdio>
 
+#define ICY_TRACE2(f,l) f "(" # l "): "
+#define ICY_TRACE1(f,l) ICY_TRACE2(f,l)
+#define ICY_TRACE       ICY_TRACE1(__FILE__, __LINE__)
+
 #if !defined(dbg_check)
-#	define dbg_check(cond, ...)		((cond) || (fprintf(stderr, "(assert failed) " # cond ": " __VA_ARGS__ ), abort(),0))
+#	define dbg_check(cond, ...)		((cond) || (fprintf(stderr, ICY_TRACE "(wtf assert failed) " # cond ": " __VA_ARGS__ ), abort(),0))
 #endif
 
 #if !defined(dbg_abort)
-#	define dbg_abort(...)		    (fprintf(stderr, "(assert failed) " __VA_ARGS__ ), abort(),0)
+#	define dbg_abort(...)		    (fprintf(stderr, ICY_TRACE "(abort) " __VA_ARGS__ ), abort(),0)
 #endif
 
 #if !defined(rel_check)
-#	define rel_check(cond, ...)		((cond) || (fprintf(stderr, "(assert failed)" # cond ": " __VA_ARGS__ ), abort(),0))
+#	define rel_check(cond, ...)		((cond) || (fprintf(stderr, ICY_TRACE "(wtf assert failed) " # cond ": " __VA_ARGS__ ), abort(),0))
 #endif
 
 #if !defined(rel_abort)
-#	define rel_abort(...)		    (fprintf(stderr, "(assert failed) " __VA_ARGS__ ), abort(),0)
+#	define rel_abort(...)		    (fprintf(stderr, ICY_TRACE "(abort) " __VA_ARGS__ ), abort(),0)
 #endif
