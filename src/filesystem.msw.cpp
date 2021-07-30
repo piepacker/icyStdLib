@@ -1,5 +1,5 @@
 
-#if !!PLATFORM_MSW
+#if !!PLATFORM_MSW || !!PLATFORM_POSIX
 #include <vector>
 #include <string>
 #include <cstdio>

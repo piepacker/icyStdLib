@@ -39,6 +39,9 @@ using x_off_t = intmax_t;
 
 #elif PLATFORM_POSIX
 
+#include <time.h>
+#include <unistd.h>
+
 #	define posix_open   open
 #	define posix_read   read
 #	define posix_pread  pread

@@ -5,6 +5,10 @@
 #include <vector>
 #include <tuple>
 
+#if !PLATFORM_MSW
+#	define vsprintf_s vsnprintf
+#endif
+
 #if !defined(__verify_fmt)
 #   if defined(_MSC_VER)
 #   	define __verify_fmt(fmtpos, vapos)

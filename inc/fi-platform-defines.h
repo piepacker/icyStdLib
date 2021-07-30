@@ -39,5 +39,13 @@
 #   define PLATFORM_PS5         0
 #endif
 
+#if !defined(PLATFORM_POSIX)
+#   if defined(__POSIX__) || defined(__linux__)
+#       define PLATFORM_POSIX   1
+#   else
+#       define PLATFORM_POSIX   0
+#   endif
+#endif
+
 #define PLATFORM_SCE (PLATFORM_PS4 || PLATFORM_PS5)
 

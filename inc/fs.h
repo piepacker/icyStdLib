@@ -11,6 +11,10 @@
 #define fread_s(a, b, c, d, e) fread(a, c, d, e)
 #endif
 
+#if PLATFORM_POSIX
+#   include <sys/stat.h>
+#endif
+
 namespace fs {
 
 class path;
