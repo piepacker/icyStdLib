@@ -86,3 +86,54 @@ int posix_link(const char* existing_file, const char* link)
     return 0;
 }
 #endif
+
+#if PLATFORM_POSIX
+CStatInfo posix_fstat(int fd) {
+    struct stat sinfo;
+    if (fstat(fd, &sinfo) == -1) {
+        dbg_check(false, "_fstat64(%d) failed, code=%d (%s)", fd, errno, strerror(errno));
+        return {};
+    }
+
+    return {
+        sinfo.st_mode,
+        sinfo.st_size,
+
+        sinfo.st_atime,
+        sinfo.st_mtime,
+        sinfo.st_ctime
+    };
+}
+
+CStatInfo posix_stat(const char* path) {
+    struct stat sinfo;
+    if (stat(path, &sinfo) == -1) {
+        //dbg_check(false, "_fstat64('%s') failed, code=%d (%s)", path, errno, strerror(errno));
+        return {};
+    }
+
+    return {
+        sinfo.st_mode,
+        sinfo.st_size,
+
+        sinfo.st_atime,
+        sinfo.st_mtime,
+        sinfo.st_ctime
+    };
+}
+
+bool CStatInfo::IsFile     () const { return (st_mode & S_IFREG) == S_IFREG  ;}
+bool CStatInfo::IsDir      () const { return (st_mode & S_IFDIR) == S_IFDIR  ;}
+bool CStatInfo::Exists     () const { return (st_mode & S_IFMT ) != 0         ;}
+
+
+int posix_link(const char* existing_file, const char* _link)
+{
+    unlink(_link);
+    if (!link(existing_file, _link)) {
+        //log_host("posix_link failed, win32code 0x%08x", GetLastError());
+        return -1;
+    }
+    return 0;
+}
+#endif

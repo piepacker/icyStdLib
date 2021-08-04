@@ -41,6 +41,9 @@ using x_off_t = intmax_t;
 
 #include <time.h>
 #include <unistd.h>
+#include <sys/stat.h>
+#include <cerrno>
+#include <cstring>
 
 #	define posix_open   open
 #	define posix_read   read
