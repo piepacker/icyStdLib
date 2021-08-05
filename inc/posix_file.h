@@ -41,7 +41,9 @@ using x_off_t = intmax_t;
 
 #include <time.h>
 #include <unistd.h>
+#include <sys/types.h>
 #include <sys/stat.h>
+#include <fcntl.h>
 #include <cerrno>
 #include <cstring>
 
@@ -52,6 +54,7 @@ using x_off_t = intmax_t;
 #	define posix_close  close
 #	define posix_lseek  lseek
 #	define posix_unlink unlink
+// Warning on linux, DEFFILEMODE is (S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH|S_IWOTH)/* 0666*/
 
 #else
 
