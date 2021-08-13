@@ -16,10 +16,14 @@ static inline auto JFMT(const int8_t &  scalar) { return intmax_t(scalar); }
 static inline auto JFMT(const int16_t&  scalar) { return intmax_t(scalar); }
 static inline auto JFMT(const int32_t&  scalar) { return intmax_t(scalar); }
 static inline auto JFMT(const int64_t&  scalar) { return intmax_t(scalar); }
+#ifdef __APPLE__
 static inline auto JFMT(const intmax_t&  scalar) { return intmax_t(scalar); }
+#endif
 
 static inline auto JFMT(const uint8_t & scalar) { return uintmax_t(scalar); }
 static inline auto JFMT(const uint16_t& scalar) { return uintmax_t(scalar); }
 static inline auto JFMT(const uint32_t& scalar) { return uintmax_t(scalar); }
 static inline auto JFMT(const uint64_t& scalar) { return uintmax_t(scalar); }
+#ifdef __APPLE__
 static inline auto JFMT(const uintmax_t& scalar) { return uintmax_t(scalar); }
+#endif
