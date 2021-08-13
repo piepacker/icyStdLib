@@ -40,7 +40,7 @@
 #endif
 
 #if !defined(PLATFORM_POSIX)
-#   if defined(__POSIX__) || defined(__linux__)
+#   if defined(__POSIX__) || defined(__linux__) || defined(__APPLE__)
 #       define PLATFORM_POSIX   1
 #   else
 #       define PLATFORM_POSIX   0
