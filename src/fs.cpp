@@ -205,8 +205,8 @@ std::string ConvertToMsw(const std::string& unix_path)
 		dst[0] = (src[0] == '/') ? '\\' : src[0];
 	}
 	dst[0] = 0;
-	ptrdiff_t newsize = dst - result.c_str();
-	rel_check(newsize <= ptrdiff_t(unix_path.length()));
+	std::ptrdiff_t newsize = dst - result.c_str();
+	rel_check(newsize <= std::ptrdiff_t(unix_path.length()));
 	result.resize(newsize);
 	return result;
 }
